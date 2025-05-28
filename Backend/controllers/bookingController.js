@@ -65,8 +65,7 @@ exports.bookTrip = async (req, res) => {
 // @access  Private (adventurer only)
 exports.getMyBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find({ adventurer: req.user._id })
-      .populate('trip');
+    const bookings = await Booking.find({ adventurer: req.user._id }).populate("trip");
 
     const today = new Date();
     const upcoming = [];
@@ -74,7 +73,12 @@ exports.getMyBookings = async (req, res) => {
     const past = [];
 
     bookings.forEach((booking) => {
-      if (booking.status === 'cancelled') {
+      // Ensure trip and date exist
+      if (!booking.trip || !booking.trip.date) {
+        return;
+      }
+
+      if (booking.status === "cancelled") {
         cancelled.push(booking);
       } else if (new Date(booking.trip.date) < today) {
         past.push(booking);
@@ -84,15 +88,15 @@ exports.getMyBookings = async (req, res) => {
     });
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: {
         upcoming,
         cancelled,
-        past
-      }
+        past,
+      },
     });
   } catch (err) {
-    res.status(500).json({ status: 'error', message: err.message });
+    res.status(500).json({ status: "error", message: err.message });
   }
 };
 
