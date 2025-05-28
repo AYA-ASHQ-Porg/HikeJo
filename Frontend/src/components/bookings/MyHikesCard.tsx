@@ -2,7 +2,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Booking } from "@/types/trip";
-import { Calendar, MapPin, Users } from "lucide-react";
+import { Calendar, Users } from "lucide-react";
 import { useState } from "react";
 import CancelBookingDialog from "./CancelBookingDialog";
 
@@ -14,14 +14,16 @@ interface MyHikesCardProps {
 const MyHikesCard = ({ booking, onCancelSuccess }: MyHikesCardProps) => {
   const [showCancelDialog, setShowCancelDialog] = useState(false);
 
-  const isPastTrip = new Date(booking.tripDate) < new Date();
+  const isPastTrip = new Date(booking.trip?.date) < new Date();
 
   return (
     <>
       <Card className={`overflow-hidden ${isPastTrip ? "opacity-60" : ""}`}>
         <CardContent className="p-4">
           <div className="flex justify-between items-start mb-3">
-            <h3 className="font-semibold text-lg">{booking.tripName}</h3>
+            <h3 className="font-semibold text-lg">
+              {booking.trip?.title || "Trip Title Not Available"}
+            </h3>
 
             <Badge
               variant={
@@ -38,12 +40,14 @@ const MyHikesCard = ({ booking, onCancelSuccess }: MyHikesCardProps) => {
             <div className="flex items-center text-sm text-muted-foreground">
               <Calendar size={16} className="mr-1" />
               <span>
-                {new Date(booking.tripDate).toLocaleDateString("en-US", {
-                  weekday: "short",
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })}
+                {booking.trip?.date
+                  ? new Date(booking.trip.date).toLocaleDateString("en-US", {
+                      weekday: "short",
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })
+                  : "Invalid Date"}
               </span>
             </div>
 
@@ -89,3 +93,4 @@ const MyHikesCard = ({ booking, onCancelSuccess }: MyHikesCardProps) => {
 };
 
 export default MyHikesCard;
+
