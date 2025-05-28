@@ -93,4 +93,3 @@ const MyHikesCard = ({ booking, onCancelSuccess }: MyHikesCardProps) => {
 };
 
 export default MyHikesCard;
-
