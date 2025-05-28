@@ -1,6 +1,5 @@
-// controllers/companyController.js
-
 const Company = require("../models/companyModel");
+const Trip = require("../models/tripModel"); 
 
 // GET /company/profile
 // Get the currently logged-in company's profile
@@ -59,10 +58,16 @@ exports.updateCompanyProfile = async (req, res) => {
 };
 
 // DELETE /company/delete-account
-// Delete the logged-in company account
+// Delete the logged-in company account and all its trips
 exports.deleteCompanyAccount = async (req, res) => {
   try {
-    const deletedCompany = await Company.findByIdAndDelete(req.user.id);
+    const companyId = req.user.id;
+
+    // delete all trips associated with this company
+    await Trip.deleteMany({ company: companyId });
+
+    // delete the company itself
+    const deletedCompany = await Company.findByIdAndDelete(companyId);
 
     if (!deletedCompany) {
       return res.status(404).json({ message: "No company found with this ID" });
@@ -70,9 +75,11 @@ exports.deleteCompanyAccount = async (req, res) => {
 
     res.status(204).json({
       status: "success",
+      message: "Company and all related trips deleted",
       data: null,
     });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
