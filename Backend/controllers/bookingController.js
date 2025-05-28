@@ -1,3 +1,4 @@
+
 // controllers/bookingController.js
 
 const Booking = require('../models/bookingModel');
