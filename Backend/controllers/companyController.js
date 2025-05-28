@@ -1,3 +1,4 @@
+
 const Company = require("../models/companyModel");
 const Trip = require("../models/tripModel"); 
 
