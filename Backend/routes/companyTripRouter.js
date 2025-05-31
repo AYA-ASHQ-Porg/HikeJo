@@ -5,7 +5,6 @@ const router = express.Router();
 const tripController = require('../controllers/tripController');
 const protect = require('../middlewares/protect');
 const restrictTo = require('../middlewares/restrictTo');
-const upload = require('../middlewares/uploadTripImage');
 
 // Apply middlewares
 router.use(protect);
