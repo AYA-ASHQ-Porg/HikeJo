@@ -26,8 +26,4 @@ router.patch('/:tripId', tripController.editTrip);
 // DELETE a trip
 router.delete('/:tripId', tripController.deleteTrip);
 
-// POST to upload trip images
-router.post('/', upload.single('image'), tripController.createTrip);
-
-
 module.exports = router;
