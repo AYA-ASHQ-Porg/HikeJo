@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from "react";
 import Layout from "@/components/layout/Layout";
-import BookingStatsCard from "@/components/bookings/BookingStatsCard";
 import BookingTabs from "@/components/bookings/BookingTabs";
 import { Booking } from "@/types/trip";
 import { useAuth } from "@/context/AuthContext";
@@ -110,7 +109,6 @@ const Bookings = () => {
           <h1 className="text-3xl font-serif font-bold mb-8">Bookings Overview</h1>
           
           <div className="space-y-8">
-            <BookingStatsCard bookings={bookings} />
             <BookingTabs bookings={bookings} />
           </div>
         </div>
